@@ -9,11 +9,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+
   -- Performance
   "lewis6991/impatient.nvim",
-
-  -- Colorscheme
-  -- (No external theme, using your custom blackyellow)
 
   -- Treesitter for syntax parsing
   {
@@ -28,7 +26,7 @@ require("lazy").setup({
     end,
   },
 
-  -- Autocomplete
+  -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -63,7 +61,7 @@ require("lazy").setup({
     end,
   },
 
-  -- LSP management & config
+  -- LSP & Mason setup
   {
     "williamboman/mason.nvim",
     build = ":MasonUpdate",
@@ -81,20 +79,29 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
   },
 
-  -- Telescope fuzzy finder (files only)
+  -- Telescope with hidden files enabled
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").setup({
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+        },
+      })
+    end,
   },
 
-  -- NeoTree file explorer
+  -- Neo-tree with hidden file support
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
-    dependencies = { 
-      "nvim-lua/plenary.nvim", 
-      "nvim-tree/nvim-web-devicons", 
-      "MunifTanjim/nui.nvim" 
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
     },
     config = function()
       require("neo-tree").setup({
@@ -102,22 +109,28 @@ require("lazy").setup({
         popup_border_style = "rounded",
         enable_git_status = true,
         enable_diagnostics = true,
+        filesystem = {
+          filtered_items = {
+            visible = true,          -- Show all filtered items
+            hide_dotfiles = false,   -- Show dotfiles like .bashrc
+            hide_gitignored = false -- Show gitignored files
+          }
+        }
       })
     end,
   },
 
-  -- Run code (iron.nvim)
+  -- Iron.nvim for REPL
   {
     "hkupty/iron.nvim",
     config = function()
       local iron = require("iron.core")
-
       iron.setup {
         config = {
           repl_definition = {
             python = { command = {"ipython"} },
             lua = { command = {"lua"} },
-            c = { command = {"zsh"} }, -- adjust as needed
+            c = { command = {"zsh"} },
             cpp = { command = {"zsh"} },
             rust = { command = {"zsh"} },
             javascript = { command = {"node"} },
