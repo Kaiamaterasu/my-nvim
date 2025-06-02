@@ -70,7 +70,7 @@ Via Mason + LSPConfig
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/yourusername/nvim-config ~/.config/nvim
+git clone https://github.com/Kaiamaterasu/my-nvim.git ~/.config/nvim
 nvim
 ```
 
